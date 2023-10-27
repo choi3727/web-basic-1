@@ -5,13 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script>
-        let text = prompt("이름을 입력해주세요")
+        function log(text){
+            alert(text + "님 안녕하세요.");
+        }
+        let text = prompt("이름을 입력해주세요");
                 
         if(text === null || text === '') {
-            name = prompt("입력해주세요");
-        }
+            text = prompt("입력해주세요");
+            if(text !== null || text !== '') {
+                log(text);
+            }
+        }        
         else {
-            alert(text + "님 안녕하세요.")
+            log(text);
         }
     </script>
 </head>
