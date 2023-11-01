@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>텍스트 색상 변경</title>
+    <style>
+        #textInput {
+            margin: 10px;
+        }
+
+        #displayText {
+            text-align: center;
+            font-size: 24px;
+            margin: 10px;
+            display: none;
+        }
+
+        #colorButtons {
+            text-align: center;
+            margin: 10px;
+            display: none;
+        }
+
+        .colorButton {
+            margin: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            border: 1px solid #000;
+        }
+
+        .colorButton:hover {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="textInput" placeholder="텍스트를 입력하세요">
+    <div id="displayText"></div>
+    <div id="colorButtons">
+        <button class="colorButton" onclick="changeColor('red')">빨강</button>
+        <button class="colorButton" onclick="changeColor('blue')">파랑</button>
+        <button class="colorButton" onclick="changeColor('green')">초록</button>
+    </div>
+
+    <script>
+        function changeColor(color) {
+            alert("선택된 색상: " + color);
+            document.getElementById("displayText").style.color = color;
+        }
+
+        document.getElementById("textInput").addEventListener("input", function() {
+            const textInput = document.getElementById("textInput");
+            const displayText = document.getElementById("displayText");
+            const colorButtons = document.getElementById("colorButtons");
+
+            if (textInput.value === "") {
+                alert("텍스트값을 입력해 주세요");
+                displayText.style.display = "none";
+                colorButtons.style.display = "none";
+            } else {
+                displayText.textContent = textInput.value;
+                displayText.style.display = "block";
+                colorButtons.style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>
