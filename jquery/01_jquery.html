@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+
+  <style>
+    #div1 {
+      width: 100px;
+      height: 100px;
+      background-color: aqua;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="div1">div1</div>
+
+  <script>
+    function load() {
+      // const div1 = document.getElementById('div1');
+      // div1.style.backgroundColor = 'red';
+
+      // JQuery
+      $('#div1').css('background-color', 'red');
+    }
+
+    // onload 와 동일한 효과
+    $(function () {
+      load();
+    });
+  </script>
+</body>
+
+</html>
