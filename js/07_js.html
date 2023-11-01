@@ -1,67 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>텍스트 색상 변경</title>
-    <style>
-        #textInput {
-            margin: 10px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .big-text {
+      font-size: xx-large;
+    }
 
-        #displayText {
-            text-align: center;
-            font-size: 24px;
-            margin: 10px;
-            display: none;
-        }
-
-        #colorButtons {
-            text-align: center;
-            margin: 10px;
-            display: none;
-        }
-
-        .colorButton {
-            margin: 5px;
-            padding: 5px 10px;
-            cursor: pointer;
-            border: 1px solid #000;
-        }
-
-        .colorButton:hover {
-            background-color: #f2f2f2;
-        }
-    </style>
+    .center {
+      text-align: center;
+    }
+  </style>
 </head>
+
 <body>
-    <input type="text" id="textInput" placeholder="텍스트를 입력하세요">
-    <div id="displayText"></div>
-    <div id="colorButtons">
-        <button class="colorButton" onclick="changeColor('red')">빨강</button>
-        <button class="colorButton" onclick="changeColor('blue')">파랑</button>
-        <button class="colorButton" onclick="changeColor('green')">초록</button>
-    </div>
+  <input type="text" id="textField">
+  <button id="inputButton">입력</button>
 
-    <script>
-        function changeColor(color) {
-            alert("선택된 색상: " + color);
-            document.getElementById("displayText").style.color = color;
-        }
+  <!-- 가운데 크게 텍스트를 표시해 주고 -->
+  <div id="container" class="center">
+    <div id="result" class="big-text">big text</div>
+    <!-- 바로 아래에 빨강 / 파랑 / 초록 글자가 쓰여진 버튼이 생긴다. -->
+    <button onclick="changeColor('빨강', 'red')">빨강</button>
+    <button onclick="changeColor('파랑', 'blue')">파랑</button>
+    <button onclick="changeColor('초록', 'green')">초록</button>
+    <button onclick="changeColor('노랑', 'yellow')">노랑</button>
+    <button onclick="changeColor('몰라', '#123456')">몰라</button>
+  </div>
 
-        document.getElementById("textInput").addEventListener("input", function() {
-            const textInput = document.getElementById("textInput");
-            const displayText = document.getElementById("displayText");
-            const colorButtons = document.getElementById("colorButtons");
+  <script>
+    // 텍스트 값을 입력 받고
+    const inputButton = document.getElementById('inputButton');
+    const textField = document.getElementById('textField');
+    const resultText = document.getElementById('result');
+    const container = document.getElementById('container');
 
-            if (textInput.value === "") {
-                alert("텍스트값을 입력해 주세요");
-                displayText.style.display = "none";
-                colorButtons.style.display = "none";
-            } else {
-                displayText.textContent = textInput.value;
-                displayText.style.display = "block";
-                colorButtons.style.display = "block";
-            }
-        });
-    </script>
+    container.style.visibility = 'hidden';
+
+    inputButton.addEventListener('click', function () {
+      console.log(textField.value);
+
+      const text = textField.value;
+
+      // 값이 없으면 “텍스트값을 입력해 주세요” 경고창을 띄우고
+      if (text === '') {
+        alert('텍스트값을 입력해 주세요');
+      } else {
+        // 값이 있으면 가운데 크게 텍스트를 표시해 주고
+        resultText.textContent = text;
+        textField.value = '';
+
+        container.style.visibility = 'visible';
+      }
+    });
+
+    // 빨강 파랑 초록 이 쓰여진 버튼을 누르면
+    // “무슨무슨 색으로 변경됩니다.” 라고 경고창이 뜨면서
+    // 입력된 텍스트의 색이 변경되게 해봅시다.
+    function changeColor(colorText, color) {
+      alert(`${colorText} 색으로 변경됩니다.`);
+
+      resultText.style.color = color;
+    }
+
+
+  </script>
 </body>
+
 </html>
