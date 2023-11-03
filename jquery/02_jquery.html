@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #div1 {
+            position: relative;
+          width: 100px;
+          height: 100px;
+          background-color: aqua;
+        }
+      </style>
+      <script>
+        $(function () {
+            $('#div1').click(function () {
+                $(this).css('background-color' , 'red');
+            });
+            $('#hideButton').click(function () {
+                $('#div1').hide('slow');
+            })
+            $('#showButton').click(function () {
+                $('#div1').show(2000, function() {
+                    $(this).animate({left : '100px'})
+                    .animate({
+                        width
+                    })
+                });
+            })
+        });
+      </script>
+</head>
+<body>
+    <div id="div1">div1</div>
+
+    <button id="hideButton">hide</button>
+    <button id="showButton">show</button>
+</body>
+</html>
