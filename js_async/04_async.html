@@ -10,12 +10,12 @@
 <body>
   <!-- #demo -->
   <div id="demo"></div>
-  <button id="getData">getData</button>
+  <button id="getData">데이터 로드</button>
 
   <script>
     document.getElementById('getData').addEventListener('click', async function () {
       await loadDoc();
-      document.getElementById('demo').append('!!!end!!!');
+      // document.getElementById('demo').append('!!!end!!!');
     });
     
     async function loadDoc() {
