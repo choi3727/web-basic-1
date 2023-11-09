@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <!-- jquery cdn -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+
+  <style>
+    @keyframes scrollBackground {
+      0% {
+        background-position: 0 0;
+        /* 시작 위치 */
+      }
+
+      100% {
+        background-position: 100% 0;
+        /* 끝 위치 */
+      }
+    }
+
+    #stage {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      border: 1px solid black;
+      background-image: url(asset/super-mario-background.jpg);
+      background-size: auto 100%;
+      background-repeat: repeat-x;
+      animation: scrollBackground 10s linear infinite;
+    }
+
+    #player {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      bottom: 10px;
+      left: 10px;
+    }
+
+    #enemy {
+      position: absolute;
+      width: 40px;
+      bottom: 10px;
+      right: 10px;
+      transform: scaleX(-1);
+    }
+
+    #gameOverScene {
+      visibility: hidden;
+      width: 100%;
+      height: 100%;
+      background-color: aqua;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- div#stage>img#player -->
+  <div id="stage">
+    <img id="player" src="asset/mario.png" alt="">
+    <img id="enemy" src="asset/misile.png" alt="">
+    <div id="gameOverScene">
+      Game Over
+      <br>
+      <button onclick="gameReset()">재시작</buttonㅊ>
+    </div>
+  </div>
+
+
+  <script>
+    const player = $('#player');
+    const enemy = $('#enemy');
+
+    // 점프 상태
+    let isJumping = false;
+
+    // 적 스피드
+    let speed = 3;
+    let isGameOver = false;
+    let enemyRespawnTimeout;
+
+    // 계속 실행될 함수
+    function onUpdate() {
+      if (!isGameOver) {
+        moveEnemy(speed);
+
+        if (onCollisionEnter(player, enemy)) {
+          isGameOver = true;
+
+          // 게임오버 화면 표시
+          $('#gameOverScene').css('visibility', 'visible');
+        }
+      }
+    }
+
+    // 게임 상태 초기화
+    function gameReset() {
+      isGameOver = false;
+      isJumping = false;
+      speed = 3;
+
+      player.css({ bottom: '10px' });
+      enemy.css({ left: '160px' });
+
+      clearTimeout(enemyRespawnTimeout);
+
+      // 게임오버 화면 없애기
+      $('#gameOverScene').css('visibility', 'hidden');
+    }
+
+    // 충돌 체크
+    function onCollisionEnter(rect1, rect2) {
+      // 첫 번째 사각형의 위치와 크기 정보 가져오기
+      const rect1Left = rect1.offset().left;
+      const rect1Top = rect1.offset().top;
+      const rect1Right = rect1Left + rect1.width();
+      const rect1Bottom = rect1Top + rect1.height();
+
+      // 두 번째 사각형의 위치와 크기 정보 가져오기
+      const rect2Left = rect2.offset().left;
+      const rect2Top = rect2.offset().top;
+      const rect2Right = rect2Left + rect2.width();
+      const rect2Bottom = rect2Top + rect2.height();
+
+      // 충돌 검사
+      if (
+        rect1Right >= rect2Left &&
+        rect1Left <= rect2Right &&
+        rect1Bottom >= rect2Top &&
+        rect1Top <= rect2Bottom
+      ) {
+        return true; // 충돌
+      }
+
+      return false; // 충돌하지 않음
+    }
+
+    function moveEnemy(speed) {
+      enemy.css({ left: `-=${speed}px` });
+
+      // 나갔으면 원래 위치로 이동
+      const enemyLeft = pxToInt(enemy.css('left'));
+      if (enemyLeft <= -100) {
+        enemyReset();
+      }
+    }
+
+    function enemyReset() {
+      speed = 0;
+
+      // 등장 타이밍 조절 500 ~ 4000
+      const time = getRandomValue(500, 4000);
+
+      // 속도
+      enemyRespawnTimeout = setTimeout(function () {
+        speed = getRandomValue(3, 10);
+      }, time);
+
+      console.log('enemyReset');
+
+      enemy.css({ left: '250px' });
+    }
+
+    function getRandomValue(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function jump() {
+      if (isJumping) {
+        return;
+      }
+
+      isJumping = true;
+      player.animate({ bottom: '+=50px' });
+      player.animate({ bottom: '-=50px' }, function () {
+        isJumping = false;
+      });
+    }
+
+    $(document).keydown(function (event) {
+      switch (event.key) {
+        case ' ':
+          jump();
+          break;
+        default:
+      }
+    });
+
+    // 픽셀 String을 숫자로 변환 : '100px' -> 100
+    function pxToInt(pxStr) {
+      return parseInt(pxStr, 10);
+    }
+
+    // 60프레임짜리 게임
+    setInterval(onUpdate, 1000 / 60)
+  </script>
+</body>
+
+</html>
